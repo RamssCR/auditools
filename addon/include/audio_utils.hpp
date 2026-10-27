@@ -9,7 +9,7 @@ namespace AudioUtils {
     bool is_clipped{};
   };
 
-  kfr::univector<kfr::f32> apply_gain(std::span<const float> buffer, double gain);
+  kfr::univector<kfr::f32> apply_gain(std::span<const float> buffer, float gain);
 
   kfr::univector<kfr::f32> reverse(std::span<const float> buffer);
 

@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 4.2)
+cmake_minimum_required(VERSION 3.25)
 project(AudioUtils VERSION 1.0.0 LANGUAGES CXX)
+cmake_policy(SET CMP0042 NEW)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(POSITION_INDEPENDENT_CODE ON)
 
 # Library Settings (Core Code)
@@ -18,21 +20,31 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(kfr)
 
-add_library(CoreUtils STATIC src/audio_utils.cpp)
+add_library(CoreUtils STATIC addon/src/audio_utils.cpp)
 
-target_include_directories(CoreUtils PUBLIC include)
+target_include_directories(CoreUtils PUBLIC addon/include)
 target_link_libraries(CoreUtils PRIVATE kfr)
 target_compile_features(CoreUtils PRIVATE cxx_std_20)
 
 # Library Settings (Node-API)
-add_compile_definitions(NAPI_VERSION=4)
+set(NODE_ADDON_API_DIR "${PROJECT_SOURCE_DIR}/node_modules/node-addon-api")
+include("${NODE_ADDON_API_DIR}/../node_addon_api.cmake" OPTIONAL)
 
-file(GLOB SOURCE_FILES "./src")
+add_library(UtilsBindings SHARED addon/src/bindings.cpp)
 
-add_library(UtilsBindings SHARED src/bindings.cpp ${CMAKE_JS_SRC})
-set_target_properties(UtilsBindings PROPERTIES PREFIX "" SUFFIX ".node")
-target_include_directories(UtilsBindings PRIVATE ${CMAKE_JS_INC})
+set_target_properties(UtilsBindings PROPERTIES
+  PREFIX ""
+  SUFFIX ".node"
+)
+
+target_include_directories(UtilsBindings PRIVATE
+  ${NODE_ADDON_API_DIR}
+  ${CMAKE_JS_INC}
+)
+
 target_link_libraries(UtilsBindings PRIVATE CoreUtils ${CMAKE_JS_LIB})
+
+target_compile_definitions(UtilsBindings PRIVATE NAPI_DISABLE_CPP_EXCEPTIONS=0 NAPI_VERSION=3)
 target_compile_features(UtilsBindings PRIVATE cxx_std_20)
 
 if(MSVC AND CMAKE_JS_NODELIB_DEF AND CMAKE_JS_NODELIB_TARGET)

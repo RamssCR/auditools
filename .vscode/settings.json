@@ -1,3 +1,8 @@
 {
-  "cmake.sourceDirectory": "/home/ramsscr/Desktop/fastify/auditools/addon"
+  "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+  "C_Cpp.default.configurationProvider": "",
+  "cmake.configureOnOpen": false,
+  "cmake.configureOnEdit": false,
+  "cmake.autoSelectActiveFolder": false,
+  "cmake.sourceDirectory": "/home/ramsscr/Desktop/backend/auditools"
 }

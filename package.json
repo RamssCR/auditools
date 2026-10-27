@@ -14,6 +14,7 @@
     "TypeScript"
   ],
   "scripts": {
+    "addon:compile": "cmake-js compile",
     "addon:build": "cmake-js build",
     "addon:rebuild": "cmake-js rebuild",
     "start": "node dist/app.js",

@@ -70,6 +70,11 @@
     ]
   },
   "binary": {
-    "napi_versions": [7]
+    "napi_versions": [
+      7
+    ]
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }

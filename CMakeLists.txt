@@ -23,7 +23,7 @@ FetchContent_MakeAvailable(kfr)
 add_library(CoreUtils STATIC addon/src/audio_utils.cpp)
 
 target_include_directories(CoreUtils PUBLIC addon/include)
-target_link_libraries(CoreUtils PRIVATE kfr)
+target_link_libraries(CoreUtils PUBLIC kfr)
 target_compile_features(CoreUtils PRIVATE cxx_std_20)
 
 # Library Settings (Node-API)

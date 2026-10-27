@@ -64,7 +64,7 @@ static Napi::Value Analyze(const Napi::CallbackInfo& info) {
 static Napi::Object Init(Napi::Env env, Napi::Object exports) {
   exports.Set("applyGain", Napi::Function::New(env, ApplyGain));
   exports.Set("reverse", Napi::Function::New(env, Reverse));
-  exports.Set("analize", Napi::Function::New(env, Analyze));
+  exports.Set("analyze", Napi::Function::New(env, Analyze));
 
   return exports;
 }

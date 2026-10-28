@@ -1,11 +1,11 @@
 #include <napi.h>
 #include "audio_utils.hpp"
 
-std::span<const float> convert_buffer(const Napi::Buffer<std::uint8_t>& u_buffer) {
-  const auto* data_ptr{reinterpret_cast<const float*>(u_buffer.Data())};
+std::span<float> convert_buffer(const Napi::Buffer<std::uint8_t>& u_buffer) {
+  auto* data_ptr{reinterpret_cast<float*>(u_buffer.Data())};
   std::size_t count{u_buffer.ByteLength() / sizeof(float)};
   
-  return std::span<const float>(data_ptr, count);
+  return std::span<float>(data_ptr, count);
 }
 
 static Napi::Value ApplyGain(const Napi::CallbackInfo& info) {

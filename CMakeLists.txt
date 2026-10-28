@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(POSITION_INDEPENDENT_CODE ON)
 
 # Library Settings (Core Code)
 set(KFR_EXTENDED_OPTIMIZATIONS OFF CACHE BOOL "Enable if your CPU supports AVX-512, keep off for stable builds" FORCE)
@@ -21,6 +20,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(kfr)
 
 add_library(CoreUtils STATIC addon/src/audio_utils.cpp)
+set_target_properties(CoreUtils PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(CoreUtils PUBLIC addon/include)
 target_link_libraries(CoreUtils PUBLIC kfr)

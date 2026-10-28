@@ -11,11 +11,14 @@ import {
   validatorCompiler,
 } from 'fastify-type-provider-zod'
 import Fastify from 'fastify'
+import { audiotoolsAddon } from '#plugins/audio-addon'
 import { basename } from 'node:path'
 import cors from '@fastify/cors'
 import helmet from '@fastify/helmet'
 import limiter from '@fastify/rate-limit'
+import multipart from '@fastify/multipart'
 import pino from 'pino'
+import { routes } from '#routes/index'
 import throttle from '@fastify/throttle'
 import { transporter } from '#config/pino'
 
@@ -39,6 +42,8 @@ await app.register(cors, {
   allowedHeaders: ['Content-Type', 'Authorization'],
 })
 
+await app.register(multipart)
+
 await app.register(helmet, {
   global: true,
   contentSecurityPolicy: {
@@ -56,6 +61,8 @@ await app.register(limiter, {
   timeWindow: 30 * 1000,
 })
 
+await app.register(audiotoolsAddon)
+
 app.get('/health', async () => {
   return {
     status: 'OK',
@@ -64,6 +71,8 @@ app.get('/health', async () => {
     environment: NODE_ENV,
   }
 })
+
+await app.register(routes, { prefix: '/api/v1' })
 
 if (
   basename(import.meta.url) === basename(process.argv[1]) &&

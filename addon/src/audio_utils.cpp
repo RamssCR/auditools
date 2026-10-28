@@ -30,7 +30,7 @@ namespace AudioUtils {
 
     const float rms_energy{kfr::rms(view)};
     const auto peak_amplitude{std::max(std::abs(*min_it), std::abs(*max_it))};
-    const auto is_clipped{peak_amplitude > 1.0f};
+    const auto is_clipped{peak_amplitude >= 1.0f};
 
     return {
       .peak_amplitude{peak_amplitude},

@@ -6,7 +6,7 @@ export const transporter = transport({
   targets: [
     {
       target: 'pino-pretty',
-      level: 'fatal',
+      level: 'info',
       options: {
         colorize: true,
       },

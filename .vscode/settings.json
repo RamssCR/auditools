@@ -4,5 +4,5 @@
   "cmake.configureOnOpen": false,
   "cmake.configureOnEdit": false,
   "cmake.autoSelectActiveFolder": false,
-  "cmake.sourceDirectory": "/home/ramsscr/Desktop/backend/auditools"
+  "cmake.sourceDirectory": "."
 }

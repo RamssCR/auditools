@@ -13,6 +13,7 @@ if (!parsed.success) {
 
 export const {
   ALLOWED_ORIGINS,
+  APP_ADDON_NAME,
   LIMIT,
   NODE_ENV,
   PORT,

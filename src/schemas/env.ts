@@ -7,6 +7,7 @@ export const env = z.object({
     .string()
     .transform((value) => value.trim().split(','))
     .default(['http://localhost:3000', 'http://localhost:5173']),
+  APP_ADDON_NAME: z.string().default('UtilsBindings'),
   LIMIT: z.coerce.number().int().positive().default(100),
   LOGFILE_NAME: z
     .string()

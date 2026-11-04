@@ -24,6 +24,7 @@ import { transporter } from '#config/pino'
 
 export const app = Fastify({
   loggerInstance: pino(transporter),
+  bodyLimit: 50 * 1024 * 1024,
 }).withTypeProvider<ZodTypeProvider>()
 
 app.setValidatorCompiler(validatorCompiler)

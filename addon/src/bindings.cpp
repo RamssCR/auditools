@@ -1,45 +1,40 @@
-#include <napi.h>
 #include "audio_utils.hpp"
-
-std::span<float> convert_buffer(const Napi::Buffer<std::uint8_t>& u_buffer) {
-  auto* data_ptr{reinterpret_cast<float*>(u_buffer.Data())};
-  std::size_t count{u_buffer.ByteLength() / sizeof(float)};
-  
-  return std::span<float>(data_ptr, count);
-}
+#include <napi.h>
+#include <span>
 
 static Napi::Value ApplyGain(const Napi::CallbackInfo& info) {
   auto env{info.Env()};
 
-  if (info.Length() < 2 || !info[0].IsBuffer() || !info[1].IsNumber()) {
-    Napi::TypeError::New(env, "Expected (Buffer, Number)").ThrowAsJavaScriptException();
+  if (info.Length() < 2 || !info[0].IsTypedArray() || !info[1].IsNumber()) {
+    Napi::TypeError::New(env, "Expected (Float32Array, Number)").ThrowAsJavaScriptException();
     return env.Null();
   }
 
-  const auto u_buffer{info[0].As<Napi::Buffer<std::uint8_t>>()};
+  auto js_array{info[0].As<Napi::Float32Array>()};
   const auto gain{info[1].As<Napi::Number>().FloatValue()};
 
-  const auto buffer{convert_buffer(u_buffer)};
+  const auto buffer{std::span<float>(js_array.Data(), js_array.ElementLength())};
   auto result{AudioUtils::apply_gain(buffer, gain)};
-  auto response{Napi::Buffer<float>::New(env, result.size())};
 
+  auto response{Napi::Float32Array::New(env, result.size())};
   std::memcpy(response.Data(), result.data(), result.size() * sizeof(float));
+
   return response;
 }
 
 static Napi::Value Reverse(const Napi::CallbackInfo& info) {
   auto env{info.Env()};
 
-  if (info.Length() < 1 || !info[0].IsBuffer()) {
-    Napi::TypeError::New(env, "Expected (Buffer)").ThrowAsJavaScriptException();
+  if (info.Length() < 1 || !info[0].IsTypedArray()) {
+    Napi::TypeError::New(env, "Expected (Float32Array)").ThrowAsJavaScriptException();
     return env.Null();
   }
 
-  const auto u_buffer{info[0].As<Napi::Buffer<std::uint8_t>>()};
-  const auto buffer{convert_buffer(u_buffer)};
+  auto js_array{info[0].As<Napi::Float32Array>()};
+  const auto buffer{std::span<float>(js_array.Data(), js_array.ElementLength())};
 
   auto result{AudioUtils::reverse(buffer)};
-  auto response{Napi::Buffer<float>::New(env, result.size())};
+  auto response{Napi::Float32Array::New(env, result.size())};
 
   std::memcpy(response.Data(), result.data(), result.size() * sizeof(float));
   return response;
@@ -48,13 +43,13 @@ static Napi::Value Reverse(const Napi::CallbackInfo& info) {
 static Napi::Value Analyze(const Napi::CallbackInfo& info) {
   auto env{info.Env()};
 
-  if (info.Length() < 1 || !info[0].IsBuffer()) {
-    Napi::TypeError::New(env, "Expected (Buffer)").ThrowAsJavaScriptException();
+  if (info.Length() < 1 || !info[0].IsTypedArray()) {
+    Napi::TypeError::New(env, "Expected (Float32Array)").ThrowAsJavaScriptException();
     return env.Null();
   }
 
-  const auto u_buffer{info[0].As<Napi::Buffer<std::uint8_t>>()};
-  const auto buffer{convert_buffer(u_buffer)};
+  auto js_array{info[0].As<Napi::Float32Array>()};
+  const auto buffer{std::span<float>(js_array.Data(), js_array.ElementLength())};
 
   auto [peak_amplitude, rms_energy, is_clipped]{AudioUtils::analyze(buffer)};
 

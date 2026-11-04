@@ -21,8 +21,10 @@ static Napi::Value ApplyGain(const Napi::CallbackInfo& info) {
 
   const auto buffer{convert_buffer(u_buffer)};
   auto result{AudioUtils::apply_gain(buffer, gain)};
+  auto response{Napi::Buffer<float>::New(env, result.size())};
 
-  return Napi::Buffer<float>::New(env, result.data(), result.size());
+  std::memcpy(response.Data(), result.data(), result.size() * sizeof(float));
+  return response;
 }
 
 static Napi::Value Reverse(const Napi::CallbackInfo& info) {
@@ -37,7 +39,10 @@ static Napi::Value Reverse(const Napi::CallbackInfo& info) {
   const auto buffer{convert_buffer(u_buffer)};
 
   auto result{AudioUtils::reverse(buffer)};
-  return Napi::Buffer<float>::New(env, result.data(), result.size());
+  auto response{Napi::Buffer<float>::New(env, result.size())};
+
+  std::memcpy(response.Data(), result.data(), result.size() * sizeof(float));
+  return response;
 }
 
 static Napi::Value Analyze(const Napi::CallbackInfo& info) {

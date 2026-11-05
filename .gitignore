@@ -29,6 +29,7 @@ lib-cov
 coverage
 html/
 *.lcov
+.vitest
 
 # nyc test coverage
 .nyc_output

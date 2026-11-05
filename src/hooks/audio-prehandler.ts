@@ -9,7 +9,7 @@ export const validateAudioFile = async (
   const file = await request.file()
 
   if (!file)
-    return reply.status(status.OK).send({
+    return reply.status(status.BAD_REQUEST).send({
       success: false,
       message: 'Audio file is missing in the request body',
       data: null,

@@ -2,6 +2,12 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { bufferToFloat32Array } from '#helpers/buffer'
 import status from 'http-status'
 
+/**
+ * Validates the audio file in the request body and extracts its data, channels, and sample rate.
+ * @param request - The Fastify request object containing the audio file.
+ * @param reply - The Fastify reply object used to send responses.
+ * @returns A promise that resolves when the validation is complete. If the audio file is invalid or missing, it sends an appropriate error response.
+ */
 export const validateAudioFile = async (
   request: FastifyRequest,
   reply: FastifyReply,

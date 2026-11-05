@@ -1,3 +1,8 @@
+/**
+ * Converts a Buffer containing 16-bit PCM audio data to a Float32Array.
+ * @param int16Buffer - A Buffer containing 16-bit PCM audio data.
+ * @returns A Float32Array containing the converted audio data.
+ */
 export const convertInt16ToFloat32Array = (
   int16Buffer: Buffer,
 ): Float32Array => {
@@ -12,6 +17,11 @@ export const convertInt16ToFloat32Array = (
   return float32Array
 }
 
+/**
+ * Converts a Float32Array containing audio data to a Buffer containing 16-bit PCM audio data.
+ * @param float32Array - A Float32Array containing audio data.
+ * @returns A Buffer containing the converted 16-bit PCM audio data.
+ */
 export const convertFloat32ArrayToInt16Buffer = (
   float32Array: Float32Array,
 ): Buffer => {
@@ -30,6 +40,13 @@ export const convertFloat32ArrayToInt16Buffer = (
   return int16Buffer
 }
 
+/**
+ * Wraps a Buffer containing 16-bit PCM audio data in a WAV file format.
+ * @param pcmInt16Buffer - A Buffer containing 16-bit PCM audio data.
+ * @param sampleRate - The sample rate of the audio data (default is 48000 Hz).
+ * @param numChannels - The number of audio channels (default is 1).
+ * @returns A Buffer containing the WAV file data.
+ */
 export const wrapInt16AsWav = (
   pcmInt16Buffer: Buffer,
   sampleRate = 48000,
@@ -59,6 +76,11 @@ export const wrapInt16AsWav = (
   return Buffer.concat([header, pcmInt16Buffer])
 }
 
+/**
+ * Converts a Buffer containing a WAV file to a Float32Array of audio samples.
+ * @param buffer - A Buffer containing a WAV file.
+ * @returns A Float32Array containing the audio samples, or null if the buffer is too small to contain valid audio data.
+ */
 export const bufferToFloat32Array = (buffer: Buffer): Float32Array | null => {
   if (buffer.length <= 44) return null
 

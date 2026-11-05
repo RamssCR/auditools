@@ -4,6 +4,12 @@ import {
   wrapInt16AsWav,
 } from '#helpers/buffer'
 
+/**
+ * Applies a gain factor to the audio data in the request and returns the modified audio as a WAV file.
+ * @param request - The Fastify request object containing the audio data and gain factor.
+ * @param reply - The Fastify reply object used to send the modified audio data.
+ * @returns A promise that resolves when the audio processing is complete and the modified audio is sent in the response.
+ */
 export const applyGain = async (
   request: FastifyRequest,
   reply: FastifyReply,
@@ -21,6 +27,12 @@ export const applyGain = async (
   return reply.header('content-type', 'audio/wav').send(wavBuffer)
 }
 
+/**
+ * Reverses the audio data in the request and returns the modified audio as a WAV file.
+ * @param request - The Fastify request object containing the audio data.
+ * @param reply - The Fastify reply object used to send the modified audio data.
+ * @returns A promise that resolves when the audio processing is complete and the modified audio is sent in the response.
+ */
 export const reverse = async (request: FastifyRequest, reply: FastifyReply) => {
   const { data, channels, sampleRate } = request.audio
   const { addons } = request.server
@@ -33,6 +45,11 @@ export const reverse = async (request: FastifyRequest, reply: FastifyReply) => {
   return reply.header('content-type', 'audio/wav').send(wavBuffer)
 }
 
+/**
+ * Analyzes the audio data in the request and returns telemetry and statistics about the audio.
+ * @param request - The Fastify request object containing the audio data.
+ * @returns A promise that resolves with an object containing the analysis results, including success status, message, and data.
+ */
 export const analyze = async (request: FastifyRequest) => {
   const { data: audio } = request.audio
   const { addons } = request.server

@@ -24,7 +24,8 @@
     "format": "prettier --write",
     "test": "vitest --coverage --reporter=default --reporter=html",
     "test:coverage": "vitest --coverage",
-    "prepare": "husky"
+    "prepare": "husky",
+    "postinstall": "cmake-js compile"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",

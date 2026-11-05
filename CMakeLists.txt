@@ -26,6 +26,24 @@ target_include_directories(CoreUtils PUBLIC addon/include)
 target_link_libraries(CoreUtils PUBLIC kfr)
 target_compile_features(CoreUtils PRIVATE cxx_std_20)
 
+if (MSVC)
+  target_compile_options(CoreUtils PRIVATE
+    /O2
+    /Oi
+    /Gy
+    /arch:AVX2
+  )
+else()
+  target_compile_options(CoreUtils PRIVATE
+    -O3
+    -march=native
+    -flto
+    -Wall
+    -Wextra
+    -Wpedantic
+  )
+endif()
+
 # Library Settings (Node-API)
 set(NODE_ADDON_API_DIR "${PROJECT_SOURCE_DIR}/node_modules/node-addon-api")
 include("${NODE_ADDON_API_DIR}/../node_addon_api.cmake" OPTIONAL)

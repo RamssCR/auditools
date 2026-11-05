@@ -1,4 +1,9 @@
 # Auditools
+
+![Status: Official](https://img.shields.io/badge/status-v1.0.0-purple?style=flat)
+
+---
+
 Auditools is a set of endpoints designed to manipulate WAV audio samples using
 C++ and KFR to achieve such purpose, and connecting it to Node.js via the
 `node-addon-api` dependency.

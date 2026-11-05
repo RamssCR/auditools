@@ -1,4 +1,3 @@
-// 1. Convert 16-bit PCM integer buffer to 32-bit Float array for C++ KFR
 export const convertInt16ToFloat32Array = (
   int16Buffer: Buffer,
 ): Float32Array => {

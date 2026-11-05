@@ -26,7 +26,9 @@ namespace AudioUtils {
 
     auto view{kfr::make_univector(buffer)};
 
-    const auto peak_amplitude{*std::ranges::max_element(buffer)};
+    const auto [min, max]{std::ranges::minmax_element(buffer)};
+    const auto peak_amplitude{std::max(std::abs(*min), std::abs(*max))};
+
     const float rms_energy{kfr::rms(view)};
     const auto is_clipped{peak_amplitude >= 1.0f};
 

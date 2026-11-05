@@ -7,5 +7,5 @@ import { toolsRoutes } from './tools'
  * @returns A promise that resolves when the routes have been registered.
  */
 export const routes = async (fastify: FastifyInstance) => {
-  await fastify.register(toolsRoutes, { prefix: '/tools' })
+  await fastify.register(toolsRoutes, { prefix: '/audio' })
 }
